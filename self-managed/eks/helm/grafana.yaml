@@ -64,6 +64,15 @@ datasources:
         version: 1
         editable: true
         isDefault: true
+      - name: Loki
+        type: loki
+        access: proxy
+        orgId: 1
+        url: http://loki.observability.svc.cluster.local:3100/
+        basicAuth: false
+        version: 1
+        editable: true
+        apiVersion: 1
       
 dashboardProviders:
   dashboardproviders.yaml:
@@ -81,3 +90,5 @@ dashboards:
   default:
     control-plane-health-and-performance-metrics:
       url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-cluster-telemetry/main/dashboards/consul-control-plane-health-and-performance.json
+    control-plane-self-managed-logs:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-cluster-telemetry/main/dashboards/consul-control-plane-self-managed-logs.json

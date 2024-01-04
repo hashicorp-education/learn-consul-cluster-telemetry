@@ -6,7 +6,7 @@ global:
   # The prefix used for all resources created in the Helm chart.
   name: consul
   # The consul image version.
-  image: hashicorp/consul:1.16.1
+  image: hashicorp/consul:1.17.0
   # The name of the datacenter that the agents should register as.
   datacenter: dc1
   # Enables TLS across the cluster to verify authenticity of the Consul servers and clients.
@@ -21,8 +21,6 @@ global:
   # Exposes Prometheus metrics for the Consul service mesh and sidecars.
   metrics:
     enabled: true
-    # Enables Consul Telemetry Collector
-    enableTelemetryCollector: true
     # Enables Consul gateway metrics.
     #enableGatewayMetrics: true
     # Enables Consul servers and clients metrics.
@@ -42,22 +40,12 @@ global:
       secretName: "consul-hcp-client-secret"
       secretKey: "client-secret"
 
-# Configures Consul data plane telemetry collector
-telemetryCollector:
-  enabled: true
-  cloud:
-    clientId:
-      secretKey: "client-id"
-      secretName: "consul-hcp-observability-client-id"
-    clientSecret:
-      secretKey: "client-secret"
-      secretName: "consul-hcp-observability-client-secret"
-
 # Configures values that configure the Consul server cluster.
 server:
   enabled: true
   # The number of server agents to run. This determines the fault tolerance of the cluster.
   replicas: 3
+  # Configures Consul server log level "TRACE", "DEBUG", "INFO", "WARN", or "ERROR".
   extraConfig: |
     {
       "log_level": "TRACE"
@@ -96,6 +84,3 @@ connectInject:
       # Defines the type of service created for gateways (e.g. LoadBalancer, ClusterIP, NodePort)
       # LoadBalancer is primarily used for cloud deployments.
       serviceType: LoadBalancer
-  # Enables metrics for Consul Connect sidecars.
-  metrics:
-    defaultEnabled: true

@@ -6,7 +6,7 @@ global:
   # The prefix used for all resources created in the Helm chart.
   name: consul
   # The consul image version.
-  image: hashicorp/consul:1.16.1
+  image: hashicorp/consul:1.17.0
   # The name of the datacenter that the agents should register as.
   datacenter: dc1
   # Enables TLS across the cluster to verify authenticity of the Consul servers and clients.
@@ -33,13 +33,14 @@ server:
   enabled: true
   # The number of server agents to run. This determines the fault tolerance of the cluster.
   replicas: 3
+  # Configures Consul server log level "TRACE", "DEBUG", "INFO", "WARN", or "ERROR".
   extraConfig: |
     {
       "log_level": "TRACE"
     }
   resources:
     requests:
-      memory: "1461Mi" # 75% of 2GB Mem
+      memory: "1461Mi"
       cpu: "500m"
     limits:
       memory: "1461Mi"
@@ -71,6 +72,3 @@ connectInject:
       # Defines the type of service created for gateways (e.g. LoadBalancer, ClusterIP, NodePort)
       # LoadBalancer is primarily used for cloud deployments.
       serviceType: LoadBalancer
-  # Enables metrics for Consul Connect sidecars.
-  metrics:
-    defaultEnabled: true

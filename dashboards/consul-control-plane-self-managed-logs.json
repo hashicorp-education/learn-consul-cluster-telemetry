@@ -1,697 +1,850 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "grafana",
-            "uid": "-- Grafana --"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 4,
-    "links": [],
-    "liveNow": false,
-    "panels": [
+  "annotations": {
+    "list": [
       {
+        "builtIn": 1,
         "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
+          "type": "grafana",
+          "uid": "-- Grafana --"
         },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": []
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 6,
-          "w": 6,
-          "x": 0,
-          "y": 0
-        },
-        "id": 3,
-        "options": {
-          "displayLabels": [
-            "percent"
-          ],
-          "legend": {
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true,
-            "values": [
-              "value"
-            ]
-          },
-          "pieType": "pie",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "builder",
-            "expr": "sum by(method) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | __error__=`` [$__range]))",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "{{method}}",
-            "queryType": "range",
-            "refId": "A"
-          }
-        ],
-        "title": "HTTP Method Distribution",
-        "type": "piechart"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": []
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 6,
-          "w": 6,
-          "x": 6,
-          "y": 0
-        },
-        "id": 4,
-        "options": {
-          "displayLabels": [
-            "percent"
-          ],
-          "legend": {
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true,
-            "values": [
-              "value"
-            ]
-          },
-          "pieType": "pie",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_TRACE_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[TRACE]` | logfmt | __error__=`` [$__range]))",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "TRACE",
-            "queryType": "range",
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_DEBUG_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[DEBUG]` | logfmt | __error__=`` [$__range]))",
-            "hide": false,
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "DEBUG",
-            "queryType": "range",
-            "refId": "B"
-          },
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_INFO_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[INFO]` | logfmt | __error__=`` [$__range]))",
-            "hide": false,
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "INFO",
-            "queryType": "range",
-            "refId": "C"
-          },
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_ERROR_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[ERROR]` | logfmt | __error__=`` [$__range]))",
-            "hide": false,
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "ERROR",
-            "queryType": "range",
-            "refId": "D"
-          }
-        ],
-        "title": "Log Type Distribution",
-        "type": "piechart"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": []
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 6,
-          "w": 6,
-          "x": 12,
-          "y": 0
-        },
-        "id": 11,
-        "options": {
-          "displayLabels": [
-            "percent"
-          ],
-          "legend": {
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true,
-            "values": [
-              "value"
-            ]
-          },
-          "pieType": "pie",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(errored) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | __error__=`` | errored!=\"\" [$__range]))",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "Error: {{errored}}",
-            "queryType": "range",
-            "refId": "A"
-          }
-        ],
-        "title": "RPC Server Call Success/Error Ratio",
-        "type": "piechart"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "smooth",
-              "lineStyle": {
-                "fill": "solid"
-              },
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 6,
-          "x": 0,
-          "y": 6
-        },
-        "id": 6,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "pluginVersion": "10.0.3",
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "builder",
-            "expr": "sum by(method) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | __error__=`` [$__range]))",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "{{method}}",
-            "queryType": "range",
-            "refId": "A"
-          }
-        ],
-        "title": "HTTP Method Distribution",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 6,
-          "x": 6,
-          "y": 6
-        },
-        "id": 9,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_TRACE_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[TRACE]` | logfmt | __error__=`` [$__range]))",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "TRACE",
-            "queryType": "range",
-            "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_DEBUG_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[DEBUG]` | logfmt | __error__=`` [$__range]))",
-            "hide": false,
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "DEBUG",
-            "queryType": "range",
-            "refId": "B"
-          },
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_INFO_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[INFO]` | logfmt | __error__=`` [$__range]))",
-            "hide": false,
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "INFO",
-            "queryType": "range",
-            "refId": "C"
-          },
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(_ERROR_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[ERROR]` | logfmt | __error__=`` [$__range]))",
-            "hide": false,
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "ERROR",
-            "queryType": "range",
-            "refId": "D"
-          }
-        ],
-        "title": "Log Type Distribution",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 6,
-          "x": 12,
-          "y": 6
-        },
-        "id": 12,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "code",
-            "expr": "sum by(errored) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | __error__=`` | errored!=\"\" [$__range]))",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "legendFormat": "Error: {{errored}}",
-            "queryType": "range",
-            "refId": "A"
-          }
-        ],
-        "title": "RPC Server Call Success/Error Ratio",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 18,
-          "x": 0,
-          "y": 13
-        },
-        "id": 1,
-        "options": {
-          "dedupStrategy": "none",
-          "enableLogDetails": true,
-          "prettifyLogMessage": false,
-          "showCommonLabels": false,
-          "showLabels": false,
-          "showTime": false,
-          "sortOrder": "Descending",
-          "wrapLogMessage": false
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "loki",
-              "uid": "P8E80F9AEF21F6940"
-            },
-            "editorMode": "builder",
-            "expr": "{component=\"server\", app=\"$app\", namespace=\"$namespace\"} |= `` | logfmt",
-            "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-            "queryType": "range",
-            "refId": "A"
-          }
-        ],
-        "title": "Raw Access Logs",
-        "type": "logs"
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-    ],
-    "refresh": "",
-    "schemaVersion": 38,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "consul",
-            "value": "consul"
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 3,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "Total  Count of log lines in the specified time range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
           },
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "namespace",
-          "options": [
+          "mappings": [
             {
-              "selected": true,
-              "text": "consul",
-              "value": "consul"
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "rgb(31, 255, 7)",
+                  "text": "0"
+                }
+              },
+              "type": "special"
             }
           ],
-          "query": "consul",
-          "queryValue": "",
-          "skipUrlSync": false,
-          "type": "custom"
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 10
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "id": 9,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum(count_over_time({namespace=~\"$namespace\", app=\"$app\"} [$__interval]))",
+          "hide": false,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Total logs",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "Total count of logs containing the search filter term in the specified time range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "rgb(222, 15, 43)",
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 10,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum(count_over_time({namespace=~\"$namespace\", app=\"$app\"} |~ `(?i)(?i)$searchable_pattern` [$__interval]))",
+          "hide": false,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Total logs containing \"$searchable_pattern\"",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "Percentage of logs containing the search filter term in the specified time range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "#299c46",
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 14,
+      "links": [],
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "(sum(count_over_time({namespace=~\"$namespace\", app=\"$app\"} |~ `(?i)(?i)$searchable_pattern` [$__interval])) * 100) / sum(count_over_time({namespace=~\"$namespace\", app=\"$app\"} [$__interval]))",
+          "hide": false,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Percentage of logs containing \"$searchable_pattern\"",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 31,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(method) (count_over_time({namespace=\"$namespace\", app=\"$app\"} | logfmt | method != `` | __error__=`` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "{{method}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Method Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 3
+      },
+      "id": 32,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum by(_TRACE_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[TRACE]` | logfmt | __error__=`` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "TRACE",
+          "queryType": "range",
+          "refId": "A"
         },
         {
-          "current": {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum by(_DEBUG_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[DEBUG]` | logfmt | __error__=`` [$__range]))",
+          "hide": false,
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "DEBUG",
+          "queryType": "range",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum by(_INFO_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[INFO]` | logfmt | __error__=`` [$__range]))",
+          "hide": false,
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "INFO",
+          "queryType": "range",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum by(_ERROR_) (count_over_time({app=\"$app\", namespace=\"$namespace\"} |= `[ERROR]` | logfmt | __error__=`` [$__range]))",
+          "hide": false,
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "ERROR",
+          "queryType": "range",
+          "refId": "D"
+        }
+      ],
+      "title": "Log Type Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 35,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(pod) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | pod != `` | __error__=`` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "{{pod}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Log Source Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "id": 37,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(request_type) (count_over_time({namespace=\"$namespace\", app=\"$app\"} | logfmt | request_type != `` | __error__=`` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "{{request_type}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "RPC Server Call Request Type Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 9
+      },
+      "id": 33,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum by(errored) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | __error__=`` | errored!=\"\" [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "Error: {{errored}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "RPC Server Call Success/Error Ratio",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 9
+      },
+      "id": 36,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(blocking) (count_over_time({app=\"$app\", namespace=\"$namespace\"} | logfmt | __error__=`` | blocking != `` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "{{blocking}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "RPC Server Call Blocking Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 18,
+        "x": 0,
+        "y": 15
+      },
+      "id": 1,
+      "maxDataPoints": 1,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "{namespace=\"$namespace\", app=\"$app\", component=\"server\"} |= `` | logfmt |~ `(?i)$searchable_pattern`",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs containing \"$searchable_pattern\" over [$__interval]",
+      "type": "logs"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "consul",
+          "value": "consul"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "namespace",
+        "options": [
+          {
             "selected": true,
             "text": "consul",
             "value": "consul"
-          },
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "app",
-          "options": [
-            {
-              "selected": true,
-              "text": "consul",
-              "value": "consul"
-            }
-          ],
-          "query": "consul",
-          "queryValue": "",
-          "skipUrlSync": false,
-          "type": "custom"
-        }
-      ]
-    },
-    "time": {
-      "from": "now-15m",
-      "to": "now"
-    },
-    "timepicker": {},
-    "timezone": "",
-    "title": "Control Plane Logs",
-    "uid": "control-plane-logs",
-    "version": 1,
-    "weekStart": ""
-  }
+          }
+        ],
+        "query": "consul",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "consul",
+          "value": "consul"
+        },
+        "definition": "label_values(app)",
+        "description": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "app",
+        "options": [],
+        "query": {
+          "query": "label_values(app)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "label": "Search (case insensitive)",
+        "name": "searchable_pattern",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Control Plane Logs",
+  "uid": "control-plane-logs",
+  "version": 1,
+  "weekStart": ""
+}
