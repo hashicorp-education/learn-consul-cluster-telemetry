@@ -1,0 +1,128 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k6-configmap
+data:
+  k6: |
+    import http from 'k6/http';
+    import { uuidv4 } from "https://jslib.k6.io/k6-utils/1.0.0/index.js";
+    import { check, fail } from 'k6';
+
+    const json = '{"Address":"127.0.0.1","Port":8000,"Meta":{"redis_version":"4.0"},"Check":{"HTTP":"https://example.com:850040220","Method":"POST","Timeout":"5s","DeregisterCriticalServiceAfter":"2m","Interval":"10s","Header":{"Content-Type":["application/json"]}}}';
+
+    let data = JSON.parse(json);
+
+    export default function() {
+
+      const key = uuidv4();
+      const ipaddress = `http://${__ENV.BASE_URI}:8500`;
+      const kv_uri = '/v1/kv/';
+      const value = { data: uuidv4() };
+      const kv_address = `${ipaddress + kv_uri + key}`
+      
+      //Put valid K/V
+      let kvres = http.put(kv_address, JSON.stringify(value));
+      if (
+        !check(kvres, {
+          'kv status code MUST be 200': (kvres) => kvres.status == 200,
+        })
+      ) {
+        fail(`registry check status code was *not* 200. error: ${kvres.error}. body: ${kvres.body}`)
+      }
+
+      //Register Service
+      data["Name"] = key;
+      const service_uri = '/v1/agent/service/register';
+
+      const service_address = `${ipaddress + service_uri }`
+      let servres = http.put(service_address, JSON.stringify(data));
+      if (
+        !check(servres, {
+          'register service status code MUST be 200': (servres) => servres.status == 200,
+        })
+      ) {
+        fail(`registry check status code was *not* 200. error: ${servres.error}. body: ${servres.body}`)
+      }
+    }
+
+    export let options = {
+      // virtual user count
+      vus: 25,
+      // run duration
+      duration: "10m",
+      // 95% of requests must complete below 2.5s
+      thresholds: { http_req_duration: ["p(95)<2500"] },
+    };
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-load-test
+spec:
+  selector:
+    app: consul-load-test
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: consul-load-test
+automountServiceAccountToken: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul-load-test
+  labels:
+    app: consul-load-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul-load-test
+  template:
+    metadata:
+      labels:
+        app: consul-load-test
+    spec:
+      serviceAccountName: consul-load-test
+      volumes:
+      - name: k6
+        configMap:
+          name: k6-configmap
+          items:
+          - key: k6
+            path: script.js
+      containers:
+      - name: load-test
+        image: loadimpact/k6
+        volumeMounts:
+          - name: k6
+            mountPath: /k6
+            readOnly: true
+        command:
+          - k6
+          - run
+          - /k6/script.js
+        env:
+        - name: BASE_URI
+          value: consul-server.consul.svc.cluster.local
+        - name: DURATION
+          value: "600"
+        - name: SHOW_PROGRESS
+          value: "false"
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: consul-load-test-to-consul-server
+spec:
+  destination:
+    name: consul
+  sources:
+    - name: consul-load-test
+      action: allow

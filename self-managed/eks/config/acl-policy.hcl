@@ -13,3 +13,6 @@ agent "consul-server-1" {
 agent "consul-server-2" {
   policy = "read"
 }
+key "" {
+  policy = "write"
+}
