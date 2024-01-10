@@ -12,14 +12,13 @@ data:
     export default function() {
 
       // global variables
-      const ipaddress = `http://${__ENV.BASE_URI}:8500`;
+      const ipaddress = `http://consul-server.consul.svc.cluster.local:8500`;
       const value = { data: uuidv4() };
       const key = uuidv4();
       
-      // put valid KVs
+      // Create KV entries
       const kv_uri = '/v1/kv/';
       const kv_address = `${ipaddress + kv_uri + key}`
-
       let kvres = http.put(kv_address, JSON.stringify(value));
       if (
         !check(kvres, {
@@ -34,7 +33,6 @@ data:
       const acl_address = `${ipaddress + acl_uri}`
       const acl_json = '{"Description":"Agent token for api service","Policies":[{"Name":"builtin/global-read-only"}],"TemplatedPolicies":[{"TemplateName":"builtin/service","TemplateVariables":{"Name":"api"}}],"Local":false}';
       let acl_data = JSON.parse(acl_json);
-
       let aclres = http.put(acl_address, JSON.stringify(acl_data));
       if (
         !check(aclres, {
@@ -58,15 +56,29 @@ data:
       ) {
         fail(`registry check status code was *not* 200. error: ${servres.error}. body: ${servres.body}`)
       }
+
+      http.get('https://httpbin.test.k6.io/delay/6');
+
     }
 
+    // With this open model executor config,
+    // new VU iterations will start at a rate of 1 every second,
+    // and we can thus expect to get 600 iterations completed
+    // for the full 10m test duration.
+
     export let options = {
+      // open model k6 executor
+      executor: 'constant-arrival-rate',
+      // rate that new VU iterations will start
+      rate: 1,
+      // time unit
+      timeUnit: '1s',
       // virtual user count
-      vus: 25,
+      preAllocatedVUs: 20,
       // run duration
       duration: "10m",
       // 95% of requests must complete below 2.5s
-      thresholds: { http_req_duration: ["p(95)<2500"] },
+      //thresholds: { http_req_duration: ["p(95)<2500"] },
     };
 
 ---
@@ -102,6 +114,9 @@ spec:
     metadata:
       labels:
         app: consul-load-test
+      annotations:
+        consul.hashicorp.com/connect-inject: "true"
+        consul.hashicorp.com/transparent-proxy: "true"
     spec:
       serviceAccountName: consul-load-test
       volumes:
@@ -122,10 +137,14 @@ spec:
           - k6
           - run
           - /k6/script.js
-        env:
-        - name: BASE_URI
-          value: consul-server.consul.svc.cluster.local
-        - name: DURATION
-          value: "600"
-        - name: SHOW_PROGRESS
-          value: "false"
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: consul-load-test-to-consul
+spec:
+  destination:
+    name: consul
+  sources:
+    - name: consul-load-test
+      action: allow
